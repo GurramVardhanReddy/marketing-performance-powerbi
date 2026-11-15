@@ -1,0 +1,20 @@
+relationship daily_campaign
+	fromColumn: fct_campaign_daily.campaign_id
+	toColumn: dim_campaign.campaign_id
+
+relationship daily_date
+	fromColumn: fct_campaign_daily.day_index
+	toColumn: dim_date.day_index
+
+relationship conv_campaign
+	fromColumn: fct_conversions.campaign_id
+	toColumn: dim_campaign.campaign_id
+
+relationship conv_date
+	fromColumn: fct_conversions.conversion_day_index
+	toColumn: dim_date.day_index
+
+relationship tier_campaign
+	fromColumn: dim_campaign_tier_history.campaign_id
+	toColumn: dim_campaign.campaign_id
+

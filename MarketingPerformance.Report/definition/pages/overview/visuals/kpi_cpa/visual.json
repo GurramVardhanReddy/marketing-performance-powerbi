@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "kpi_cpa",
+  "position": {
+    "x": 880,
+    "y": 20,
+    "z": 0,
+    "width": 200,
+    "height": 110
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Cost per Attributed Conversion"
+                }
+              },
+              "queryRef": "Key Measures.Cost per Attributed Conversion",
+              "nativeQueryRef": "Cost per Attributed Conversion"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

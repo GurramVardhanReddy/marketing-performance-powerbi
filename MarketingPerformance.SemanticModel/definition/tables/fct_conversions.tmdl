@@ -1,0 +1,93 @@
+table fct_conversions
+
+	column conversion_id
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: conversion_id
+
+	column user_id
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: user_id
+
+	column campaign_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column conversion_day_index
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: conversion_day_index
+
+	column n_impressions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: n_impressions
+
+	column n_clicks
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: n_clicks
+
+	column seconds_last_click_to_conversion
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: seconds_last_click_to_conversion
+
+	column seconds_first_touch_to_conversion
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: seconds_first_touch_to_conversion
+
+	column is_attributed
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: is_attributed
+
+	column path_cost
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: path_cost
+
+	column cost_per_order
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: cost_per_order
+
+	column spans_multiple_campaigns
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: spans_multiple_campaigns
+
+	column spans_multiple_users
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: spans_multiple_users
+
+	column has_mixed_attribution
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: has_mixed_attribution
+
+	partition fct_conversions = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\fct_conversions.parquet"))
+				in
+				    Source
+

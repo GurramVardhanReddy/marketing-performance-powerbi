@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "kpi_multi",
+  "position": {
+    "x": 665,
+    "y": 20,
+    "z": 0,
+    "width": 200,
+    "height": 110
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Multi-Campaign Journey Share"
+                }
+              },
+              "queryRef": "Key Measures.Multi-Campaign Journey Share",
+              "nativeQueryRef": "Multi-Campaign Journey Share"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

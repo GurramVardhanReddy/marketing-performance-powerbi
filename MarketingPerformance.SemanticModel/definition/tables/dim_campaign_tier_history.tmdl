@@ -1,0 +1,57 @@
+table dim_campaign_tier_history
+
+	column campaign_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column spend_tier
+		dataType: string
+		summarizeBy: none
+		sourceColumn: spend_tier
+
+	column as_of_day_index
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: as_of_day_index
+
+	column cost_to_date
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: cost_to_date
+
+	column impressions_to_date
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: impressions_to_date
+
+	column valid_from
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: valid_from
+
+	column valid_to
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: valid_to
+
+	column is_current
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_current
+
+	partition dim_campaign_tier_history = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_campaign_tier_history.parquet"))
+				in
+				    Source
+

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "kpi_pareto",
+  "position": {
+    "x": 20,
+    "y": 240,
+    "z": 0,
+    "width": 200,
+    "height": 110
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Top 10% Campaigns Share of Attributed Conversions"
+                }
+              },
+              "queryRef": "Key Measures.Top 10% Campaigns Share of Attributed Conversions",
+              "nativeQueryRef": "Top 10% Campaigns Share of Attributed Conversions"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

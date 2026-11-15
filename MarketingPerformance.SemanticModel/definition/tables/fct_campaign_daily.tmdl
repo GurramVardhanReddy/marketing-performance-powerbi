@@ -1,0 +1,54 @@
+table fct_campaign_daily
+
+	column campaign_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column day_index
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: day_index
+
+	column impressions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: impressions
+
+	column clicks
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: clicks
+
+	column cost
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: cost
+
+	column conversions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: conversions
+
+	column attributed_conversions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: attributed_conversions
+
+	partition fct_campaign_daily = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\fct_campaign_daily.parquet"))
+				in
+				    Source
+

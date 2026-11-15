@@ -1,0 +1,169 @@
+table 'Key Measures'
+
+	measure Impressions = SUM ( fct_campaign_daily[impressions] )
+		formatString: #,0
+		displayFolder: Volume
+
+	measure Clicks = SUM ( fct_campaign_daily[clicks] )
+		formatString: #,0
+		displayFolder: Volume
+
+	measure Cost = SUM ( fct_campaign_daily[cost] )
+		formatString: #,0.00
+		displayFolder: Volume
+
+	measure Conversions = SUM ( fct_campaign_daily[conversions] )
+		formatString: #,0
+		displayFolder: Volume
+
+	measure 'Attributed Conversions' = SUM ( fct_campaign_daily[attributed_conversions] )
+		formatString: #,0
+		displayFolder: Volume
+
+	measure CTR = DIVIDE ( [Clicks], [Impressions] )
+		formatString: 0.00%
+		displayFolder: Rates
+
+	measure 'Conversions per 1k Impressions' = DIVIDE ( [Conversions], [Impressions] ) * 1000
+		formatString: #,0.00
+		displayFolder: Rates
+
+	measure 'Attribution Rate' = DIVIDE ( [Attributed Conversions], [Conversions] )
+		formatString: 0.0%
+		displayFolder: Rates
+
+	measure 'Cost per Attributed Conversion' = DIVIDE ( [Cost], [Attributed Conversions] )
+		formatString: #,0.00
+		displayFolder: Rates
+
+	measure 'Share of Cost' = ```
+			DIVIDE (
+			    [Cost],
+			    CALCULATE ( [Cost], ALLSELECTED ( dim_campaign ) )
+			)
+			```
+		formatString: 0.0%
+		displayFolder: Rates
+
+	measure 'Cumulative Cost' = ```
+			VAR LastDay = MAX ( dim_date[day_index] )
+			RETURN
+			    CALCULATE (
+			        [Cost],
+			        FILTER ( ALL ( dim_date ), dim_date[day_index] <= LastDay )
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Time
+
+	measure 'Rolling 7-Day CTR' = ```
+			VAR LastDay = MAX ( dim_date[day_index] )
+			VAR Window =
+			    FILTER (
+			        ALL ( dim_date ),
+			        dim_date[day_index] > LastDay - 7
+			            && dim_date[day_index] <= LastDay
+			    )
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( [Clicks], Window ),
+			        CALCULATE ( [Impressions], Window )
+			    )
+			```
+		formatString: 0.00%
+		displayFolder: Time
+
+	measure 'Conversions WoW %' = ```
+			VAR ThisWeek = MAX ( dim_date[week_index] )
+			VAR Cur =
+			    CALCULATE ( [Conversions], ALL ( dim_date ), dim_date[week_index] = ThisWeek )
+			VAR Prev =
+			    CALCULATE ( [Conversions], ALL ( dim_date ), dim_date[week_index] = ThisWeek - 1 )
+			RETURN
+			    IF ( NOT ISBLANK ( Prev ), DIVIDE ( Cur - Prev, Prev ) )
+			```
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Time
+
+	measure 'Campaign CPA Rank' = ```
+			IF (
+			    HASONEVALUE ( dim_campaign[campaign_id] )
+			        && NOT ISBLANK ( [Cost per Attributed Conversion] ),
+			    RANKX (
+			        FILTER (
+			            ALLSELECTED ( dim_campaign ),
+			            NOT ISBLANK ( [Cost per Attributed Conversion] )
+			        ),
+			        [Cost per Attributed Conversion],
+			        ,
+			        ASC,
+			        DENSE
+			    )
+			)
+			```
+		formatString: 0
+		displayFolder: Campaigns
+
+	measure 'Top 10% Campaigns Share of Attributed Conversions' = ```
+			VAR Active =
+			    FILTER ( ALLSELECTED ( dim_campaign ), [Attributed Conversions] > 0 )
+			VAR N = ROUNDUP ( COUNTROWS ( Active ) * 0.1, 0 )
+			VAR TopCampaigns = TOPN ( N, Active, [Attributed Conversions], DESC )
+			RETURN
+			    DIVIDE (
+			        SUMX ( TopCampaigns, [Attributed Conversions] ),
+			        SUMX ( Active, [Attributed Conversions] )
+			    )
+			```
+		formatString: 0.0%
+		displayFolder: Campaigns
+
+	measure 'Active Campaigns' = ```
+			COUNTROWS ( FILTER ( VALUES ( dim_campaign[campaign_id] ), [Impressions] > 0 ) )
+			```
+		formatString: #,0
+		displayFolder: Campaigns
+
+	measure 'Conversion Journeys' = COUNTROWS ( fct_conversions )
+		formatString: #,0
+		displayFolder: Journeys
+
+	measure 'Median Hours Last Click to Conversion' = ```
+			DIVIDE (
+			    MEDIANX (
+			        FILTER (
+			            fct_conversions,
+			            NOT ISBLANK ( fct_conversions[seconds_last_click_to_conversion] )
+			        ),
+			        fct_conversions[seconds_last_click_to_conversion]
+			    ),
+			    3600
+			)
+			```
+		formatString: #,0.0
+		displayFolder: Journeys
+
+	measure 'Avg Impressions per Journey' = AVERAGE ( fct_conversions[n_impressions] )
+		formatString: #,0.0
+		displayFolder: Journeys
+
+	measure 'Multi-Campaign Journey Share' = ```
+			DIVIDE (
+			    CALCULATE ( COUNTROWS ( fct_conversions ), fct_conversions[spans_multiple_campaigns] = TRUE () ),
+			    COUNTROWS ( fct_conversions )
+			)
+			```
+		formatString: 0.0%
+		displayFolder: Journeys
+
+	column Value
+		isHidden
+		dataType: string
+		isNameInferred
+		summarizeBy: none
+		sourceColumn: [Value]
+
+	partition 'Key Measures' = calculated
+		mode: import
+		source = ROW ( "Value", "" )
+

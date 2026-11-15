@@ -1,0 +1,5 @@
+expression DataFolder = "C:\Users\Vardhan Reddy Gurram\marketing-performance-powerbi\data\gold" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+

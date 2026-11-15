@@ -1,0 +1,83 @@
+table dim_campaign
+
+	column campaign_id
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column first_day_index
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: first_day_index
+
+	column last_day_index
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: last_day_index
+
+	column impressions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: impressions
+
+	column clicks
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: clicks
+
+	column cost
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: cost
+
+	column conversions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: conversions
+
+	column attributed_conversions
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: attributed_conversions
+
+	column cost_per_attributed_conversion
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: cost_per_attributed_conversion
+
+	column avg_cost_per_order
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: avg_cost_per_order
+
+	column current_spend_tier = ```
+			CALCULATE (
+			    MAX ( dim_campaign_tier_history[spend_tier] ),
+			    dim_campaign_tier_history[is_current] = TRUE ()
+			)
+			```
+		dataType: string
+		summarizeBy: none
+
+	column campaign_label = "Campaign " & FORMAT ( dim_campaign[campaign_id], "0" )
+		dataType: string
+		summarizeBy: none
+
+	partition dim_campaign = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_campaign.parquet"))
+				in
+				    Source
+

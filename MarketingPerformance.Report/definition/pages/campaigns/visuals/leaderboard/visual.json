@@ -1,0 +1,171 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "leaderboard",
+  "position": {
+    "x": 280,
+    "y": 20,
+    "z": 0,
+    "width": 980,
+    "height": 680
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_campaign"
+                    }
+                  },
+                  "Property": "campaign_label"
+                }
+              },
+              "queryRef": "dim_campaign.campaign_label",
+              "nativeQueryRef": "campaign_label"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_campaign"
+                    }
+                  },
+                  "Property": "current_spend_tier"
+                }
+              },
+              "queryRef": "dim_campaign.current_spend_tier",
+              "nativeQueryRef": "current_spend_tier"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Impressions"
+                }
+              },
+              "queryRef": "Key Measures.Impressions",
+              "nativeQueryRef": "Impressions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "CTR"
+                }
+              },
+              "queryRef": "Key Measures.CTR",
+              "nativeQueryRef": "CTR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Cost"
+                }
+              },
+              "queryRef": "Key Measures.Cost",
+              "nativeQueryRef": "Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Share of Cost"
+                }
+              },
+              "queryRef": "Key Measures.Share of Cost",
+              "nativeQueryRef": "Share of Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Attributed Conversions"
+                }
+              },
+              "queryRef": "Key Measures.Attributed Conversions",
+              "nativeQueryRef": "Attributed Conversions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Cost per Attributed Conversion"
+                }
+              },
+              "queryRef": "Key Measures.Cost per Attributed Conversion",
+              "nativeQueryRef": "Cost per Attributed Conversion"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Campaign CPA Rank"
+                }
+              },
+              "queryRef": "Key Measures.Campaign CPA Rank",
+              "nativeQueryRef": "Campaign CPA Rank"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Campaign leaderboard'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

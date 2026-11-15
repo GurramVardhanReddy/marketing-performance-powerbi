@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "journey_table",
+  "position": {
+    "x": 20,
+    "y": 440,
+    "z": 0,
+    "width": 1240,
+    "height": 260
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_campaign"
+                    }
+                  },
+                  "Property": "campaign_label"
+                }
+              },
+              "queryRef": "dim_campaign.campaign_label",
+              "nativeQueryRef": "campaign_label"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Conversion Journeys"
+                }
+              },
+              "queryRef": "Key Measures.Conversion Journeys",
+              "nativeQueryRef": "Conversion Journeys"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Avg Impressions per Journey"
+                }
+              },
+              "queryRef": "Key Measures.Avg Impressions per Journey",
+              "nativeQueryRef": "Avg Impressions per Journey"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Median Hours Last Click to Conversion"
+                }
+              },
+              "queryRef": "Key Measures.Median Hours Last Click to Conversion",
+              "nativeQueryRef": "Median Hours Last Click to Conversion"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Measures"
+                    }
+                  },
+                  "Property": "Multi-Campaign Journey Share"
+                }
+              },
+              "queryRef": "Key Measures.Multi-Campaign Journey Share",
+              "nativeQueryRef": "Multi-Campaign Journey Share"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Journeys by campaign'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
